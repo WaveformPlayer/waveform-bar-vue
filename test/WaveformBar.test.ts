@@ -22,6 +22,7 @@ import { flushPromises, mount } from '@vue/test-utils';
 vi.mock('@arraypress/waveform-bar', () => ({ default: {}, WaveformBar: {} }));
 
 import { WaveformBar, WaveformBarTrigger } from '../src';
+import type { WaveformBarConfig } from '../src/types';
 
 const init = vi.fn();
 const destroy = vi.fn();
@@ -55,6 +56,24 @@ describe('WaveformBar (Vue)', () => {
 		await flushPromises();
 		expect(init).toHaveBeenCalledTimes(1);
 		expect(init).toHaveBeenCalledWith(config);
+	});
+
+	it('forwards waveformGradient, gradient colour stops, barRadius and showTime verbatim', async () => {
+		// Typed as WaveformBarConfig on purpose: this literal is the type
+		// test — the typecheck rejected every one of these keys/values before.
+		const config: WaveformBarConfig = {
+			waveformGradient: 'horizontal',
+			waveformColor: ['#fafafa', '#71717a'],
+			progressColor: ['#22d3ee', '#0e7490'],
+			barRadius: 0,
+			showTime: false,
+		};
+		mount(WaveformBar, { props: { config } });
+		await flushPromises();
+		expect(init).toHaveBeenCalledTimes(1);
+		expect(init).toHaveBeenCalledWith(config);
+		// 0 is a real value (square caps), not "unset" — it must survive.
+		expect(init.mock.calls[0][0].barRadius).toBe(0);
 	});
 
 	it('re-inits when the config shape changes', async () => {
