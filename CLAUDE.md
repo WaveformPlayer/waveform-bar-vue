@@ -19,6 +19,14 @@ missing here (invisible to users) or present here but unsupported by the bar
 `waveform-bar/src/js/core.js` → `DEFAULTS`. All four bar wrappers carry their own
 copy of this type; they must be edited together.
 
+`test/config-drift.test.ts` guards this: it parses `DEFAULTS` from the installed
+bar (`node_modules/@arraypress/waveform-bar/src/js/core.js`) and fails on a bar key
+that isn't typed (unless listed in `NOT_TYPED`, e.g. the `on*` callbacks) or a
+typed key the bar doesn't know (unless in `NOT_IN_DEFAULTS`). It also pins
+`SHARED_CONFIG_KEYS`, which must stay identical in all four wrappers. Bump the
+`@arraypress/waveform-bar` devDependency after a bar release so it checks the
+new `DEFAULTS`.
+
 Because `config` is a single object prop, the per-option runtime `props` declaration
 that `waveform-player-vue` needs does **not** apply here.
 
