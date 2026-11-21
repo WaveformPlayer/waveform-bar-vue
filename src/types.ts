@@ -24,7 +24,7 @@
  * `CustomEvent` anyway. Listen via `addEventListener` in your own
  * code — that's framework-agnostic and avoids the re-init churn.
  *
- * @see {@link https://github.com/arraypress/waveform-bar} — core library
+ * @see {@link https://github.com/WaveformPlayer/waveform-bar} — core library
  */
 
 /* Re-export the WaveformStyle alias for ergonomic consumer imports. */
